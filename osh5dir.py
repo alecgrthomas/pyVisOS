@@ -8,23 +8,40 @@ Helper functions for locating files in the OSIRIS directory structure
 
 #extract data here
 def getfile(field_name,filenum):
-    filename = field_name + "%06d.h5"%filenum
-    #print("filename = ",filename)
-    data = h5.File(filename, "r")
-    N = data['SIMULATION'].attrs['NX']
-    axes = data['AXIS']
-    axs = list(axes.keys())
-    axis_data = []
-    axis_name = []
+    
+    import osh5io
 
-    for ii, ax in enumerate(axs):
-        axis_data.append(np.linspace(axes[ax][0],axes[ax][1],N[ii]))
-        axis_name.append(axes[ax].attrs['NAME'][0])
-    ks = list(data.keys())
-    values = np.array(data[ks[2]])
-    return(values,axis_data,axis_name)
+    filename = field_name + "%06d.h5"%filenum
+   # print("filename = ",filename)
+    #data = h5.File(filename, "r")
+    data = osh5io.read_h5(filename)
+    #N = data['SIMULATION'].attrs['NX']
+    #axes = data['AXIS']
+    #axs = list(axes.keys())
+    #axis_data = []
+    #axis_name = []
+
+    #for ii, ax in enumerate(axs):
+    #    axis_data.append(np.linspace(axes[ax][0],axes[ax][1],N[ii]))
+    #    axis_name.append(axes[ax].attrs['NAME'][0])
+    #ks = list(data.keys())
+    #values = np.array(data[ks[2]])
+    #return(values,axis_data,axis_name)
+    return data
 
 def getfieldname(base_directory,field,species,lineout):
+
+    import json 
+    import numpy as np
+    import matplotlib
+    
+    N_COLORS = 128
+    c_white_trans = matplotlib.colors.colorConverter.to_rgba('white', alpha = 0.) 
+    cmap={}
+    cmap['FLD'] = matplotlib.colors.LinearSegmentedColormap.from_list('cmap_laser', [ 'navy','b', c_white_trans,'r','darkred'], N_COLORS)
+    cmap['DENSITY'] = matplotlib.colors.LinearSegmentedColormap.from_list('cmap_jet', ['w', 'blue', 'cyan', 'lime','yellow', 'r', 'darkred' ], N_COLORS)
+    cmap['ION'] = matplotlib.colors.LinearSegmentedColormap.from_list('cmap_jet', ['darkred', 'r','yellow','lime','cyan', 'blue', 'w',  ], N_COLORS)
+
     # directory structure set up here
     file = open('fields.json')
     dict = json.load(file)

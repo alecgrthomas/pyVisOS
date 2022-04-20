@@ -20,6 +20,8 @@
     "b3_cyl_m": "FLD",
     "charge": "DENSITY",
     "charge_cyl_m": "DENSITY",
+    "ion_charge": "ION",
+    "neut_den": "ION",
     "0-re": "MODE-0-RE",
     "1-re": "MODE-1-RE",
     "1-im": "MODE-1-IM",
