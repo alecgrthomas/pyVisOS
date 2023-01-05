@@ -6,13 +6,22 @@ osh5dir.py
 Helper functions for locating files in the OSIRIS directory structure
 """
 
+# show available info in directory
+def runinfo(base_directory):
+    import os
+    with os.scandir(base_directory+"/MS") as entries:
+        for entry in entries:
+            print(entry.name)
+
+
 #extract data here
 def getfile(field_name,filenum):
     
     import osh5io
 
     filename = field_name + "%06d.h5"%filenum
-   # print("filename = ",filename)
+   
+# print("filename = ",filename)
     #data = h5.File(filename, "r")
     data = osh5io.read_h5(filename)
     #N = data['SIMULATION'].attrs['NX']
@@ -40,7 +49,8 @@ def getfieldname(base_directory,field,species,lineout):
     cmap={}
     cmap['FLD'] = matplotlib.colors.LinearSegmentedColormap.from_list('cmap_laser', [ 'navy','b', c_white_trans,'r','darkred'], N_COLORS)
     cmap['DENSITY'] = matplotlib.colors.LinearSegmentedColormap.from_list('cmap_jet', ['w', 'blue', 'cyan', 'lime','yellow', 'r', 'darkred' ], N_COLORS)
-    cmap['ION'] = matplotlib.colors.LinearSegmentedColormap.from_list('cmap_jet', ['darkred', 'r','yellow','lime','cyan', 'blue', 'w',  ], N_COLORS)
+    cmap['ION'] = cmap['DENSITY']
+    cmap['PHA'] = matplotlib.colors.LinearSegmentedColormap.from_list('cmap_jet', ['darkred', 'r','yellow','lime','cyan', 'blue', 'w',  ], N_COLORS)
 
     # directory structure set up here
     file = open('fields.json')
@@ -53,7 +63,10 @@ def getfieldname(base_directory,field,species,lineout):
         species = ''
         
     path = base_directory + '/MS/' + field_dir + '/' + species_dir + field + '/'
-
+    
+    if field_dir == 'PHA':
+        path = base_directory + '/MS/' + field_dir + '/' + field + '/' + species_dir + '/'
+    
     field_name = path + field + "-"
     if '-line' in field:
         field_name = field_name + lineout

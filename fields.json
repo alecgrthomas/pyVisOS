@@ -20,6 +20,7 @@
     "b3_cyl_m": "FLD",
     "charge": "DENSITY",
     "charge_cyl_m": "DENSITY",
+    "ene": "DENSITY",
     "ion_charge": "ION",
     "neut_den": "ION",
     "0-re": "MODE-0-RE",
@@ -30,5 +31,11 @@
     "e3-line": "FLD",
     "b1-line": "FLD",
     "b2-line": "FLD",
-    "b3-line": "FLD"
+    "b3-line": "FLD",
+    "p2p1": "PHA",
+    "p1x1": "PHA",
+    "x1p1": "PHA",
+    "p2x1": "PHA",
+    "p1x2": "PHA",
+    "p2x2": "PHA"   
 }
